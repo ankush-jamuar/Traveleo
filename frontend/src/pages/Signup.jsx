@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { FiMail, FiLock, FiUser, FiPhone } from "react-icons/fi";
 import Brand from "../components/Brand";
-import { registerUser } from "../api/auth.api";
+import { signupUser } from "../api/auth.api";
 
 const Signup = () => {
   const navigate = useNavigate();
