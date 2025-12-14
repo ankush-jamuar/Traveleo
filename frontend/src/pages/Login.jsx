@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiMail, FiLock } from "react-icons/fi";
+import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import Brand from "../components/Brand";
 import { loginUser } from "../api/auth.api"; // 🔗 backend API
 
@@ -13,6 +13,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   // ✅ backend-connected handler
   const handleLogin = async () => {
@@ -28,9 +29,7 @@ const Login = () => {
       // ✅ redirect
       navigate("/dashboard");
     } catch (err) {
-      setError(
-        err.response?.data?.message || "Invalid email or password"
-      );
+      setError(err.response?.data?.message || "Invalid email or password");
     } finally {
       setLoading(false);
     }
@@ -38,7 +37,6 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-600 via-teal-600 to-green-500 flex flex-col items-center justify-center px-4">
-      
       {/* BRAND ABOVE CARD */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -65,9 +63,7 @@ const Login = () => {
 
         {/* ERROR MESSAGE */}
         {error && (
-          <p className="mb-4 text-sm text-red-200 text-center">
-            {error}
-          </p>
+          <p className="mb-4 text-sm text-red-200 text-center">{error}</p>
         )}
 
         {/* EMAIL */}
@@ -85,13 +81,23 @@ const Login = () => {
         {/* PASSWORD */}
         <div className="relative mb-6">
           <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/80 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full pl-12 pr-12 py-3 rounded-xl bg-white/80 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-emerald-500"
           />
+
+          {/* Eye Toggle */}
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-emerald-600 transition"
+          >
+            {showPassword ? <FiEyeOff /> : <FiEye />}
+          </button>
         </div>
 
         {/* LOGIN BUTTON */}

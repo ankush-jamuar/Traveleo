@@ -1,9 +1,16 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { FiMail, FiLock, FiUser, FiPhone } from "react-icons/fi";
+import {
+  FiMail,
+  FiLock,
+  FiUser,
+  FiPhone,
+  FiEye,
+  FiEyeOff,
+} from "react-icons/fi";
 import Brand from "../components/Brand";
-import { signupUser } from "../api/auth.api";
+import { registerUser } from "../api/auth.api";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -13,6 +20,7 @@ const Signup = () => {
   const [phone, setPhone] = useState(""); // UI only
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -23,7 +31,7 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      await signupUser({
+      await registerUser({
         name,
         email,
         password, // ⚠️ phone NOT sent (backend doesn’t accept it)
@@ -32,9 +40,7 @@ const Signup = () => {
       // ✅ redirect to login after successful signup
       navigate("/login");
     } catch (err) {
-      setError(
-        err.response?.data?.error || "Signup failed. Try again."
-      );
+      setError(err.response?.data?.error || "Signup failed. Try again.");
     } finally {
       setLoading(false);
     }
@@ -42,7 +48,6 @@ const Signup = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-600 via-teal-600 to-green-500 flex flex-col items-center justify-center px-4">
-      
       {/* BRAND ABOVE CARD */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
@@ -69,9 +74,7 @@ const Signup = () => {
 
         {/* ERROR */}
         {error && (
-          <p className="mb-4 text-sm text-red-200 text-center">
-            {error}
-          </p>
+          <p className="mb-4 text-sm text-red-200 text-center">{error}</p>
         )}
 
         {/* Full Name */}
@@ -113,13 +116,23 @@ const Signup = () => {
         {/* Password */}
         <div className="relative mb-5">
           <FiLock className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full pl-12 pr-4 py-3 rounded-xl bg-white/80 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-emerald-500"
+            className="w-full pl-12 pr-12 py-3 rounded-xl bg-white/80 text-gray-800 placeholder-gray-500 outline-none focus:ring-2 focus:ring-emerald-500"
           />
+
+          {/* Eye Toggle */}
+          <button
+            type="button"
+            onClick={() => setShowPassword(!showPassword)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-emerald-600 transition"
+          >
+            {showPassword ? <FiEyeOff /> : <FiEye />}
+          </button>
         </div>
 
         {/* SIGNUP BUTTON */}
