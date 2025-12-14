@@ -71,7 +71,7 @@ const Signup = () => {
           />
         </div>
 
-        <motion.button
+        <motion.button 
           whileTap={{ scale: 0.97 }}
           className="w-full py-3 rounded-xl font-semibold text-white bg-emerald-600 hover:bg-emerald-700 transition"
         >
