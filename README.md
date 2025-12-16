@@ -126,6 +126,7 @@ Frontend (React)
 │
 ├── API Layer (Axios)
 │
+
 Backend (Express)
 │
 ├── Routes
