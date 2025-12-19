@@ -1,12 +1,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Brand from "./Brand";
-import {
-  FiHome,
-  FiMap,
-  FiUser,
-  FiLogOut,
-} from "react-icons/fi";
+import { FiHome, FiMap, FiUser, FiLogOut, FiClock } from "react-icons/fi";
 import { motion } from "framer-motion";
 
 const Sidebar = () => {
@@ -53,29 +48,24 @@ const Sidebar = () => {
 
       {/* MAIN NAV */}
       <nav className="flex flex-col gap-2 flex-grow">
-        <Link
-          to="/dashboard"
-          className={linkClass(isActive("/dashboard"))}
-        >
+        <Link to="/dashboard" className={linkClass(isActive("/dashboard"))}>
           <FiHome size={18} />
           Dashboard
         </Link>
 
-        <Link
-          to="/trips"
-          className={linkClass(isActive("/trips"))}
-        >
+        <Link to="/trips" className={linkClass(isActive("/trips"))}>
           <FiMap size={18} />
           Trips
+        </Link>
+        <Link to="/history" className={linkClass(isActive("/history"))}>
+          <FiClock size={18} />
+          History
         </Link>
       </nav>
 
       {/* PROFILE (SECONDARY ACTION) */}
       <div className="pt-4 border-t border-white/10">
-        <Link
-          to="/profile"
-          className={linkClass(isActive("/profile"))}
-        >
+        <Link to="/profile" className={linkClass(isActive("/profile"))}>
           <FiUser size={18} />
           Profile
         </Link>

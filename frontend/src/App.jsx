@@ -8,7 +8,8 @@ import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import Trips from "./pages/Trips";
 import TripDetails from "./pages/TripDetails";
-import Profile from "./pages/Profile"; // ✅ NEW
+import Profile from "./pages/Profile";
+import History from "./pages/History"; // ✅ NEW
 
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
@@ -20,25 +21,26 @@ function App() {
         toastOptions={{
           duration: 3000,
           style: {
-            background: "rgba(15,23,42,0.95)", // SAME glass dark bg
+            background: "rgba(15,23,42,0.95)",
             color: "#fff",
             border: "1px solid rgba(255,255,255,0.12)",
             backdropFilter: "blur(12px)",
           },
           success: {
             iconTheme: {
-              primary: "#34d399", // emerald
+              primary: "#34d399",
               secondary: "#022c22",
             },
           },
           error: {
             iconTheme: {
-              primary: "#f87171", // red
+              primary: "#f87171",
               secondary: "#450a0a",
             },
           },
         }}
       />
+
       <Routes>
         {/* 🌐 Public Routes */}
         <Route path="/" element={<Landing />} />
@@ -69,6 +71,16 @@ function App() {
           element={
             <ProtectedRoute>
               <TripDetails />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* 🧾 Expense History */}
+        <Route
+          path="/history"
+          element={
+            <ProtectedRoute>
+              <History />
             </ProtectedRoute>
           }
         />
