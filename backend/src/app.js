@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from "cors";
 
+
 const app=express()
 
 //middleware
@@ -39,6 +40,11 @@ app.use("/api", insightRoute);
 
 
 import healthRoute from './routes/health.route.js'
+
+import profileRoutes from "./routes/profile.routes.js";
+
+app.use("/api/profile", profileRoutes);
+
 
 
 app.use('/api',healthRoute);

@@ -137,8 +137,9 @@ export const sendWelcomeMail = async (email, name) => {
     html: baseTemplate({
       title: "Welcome to TraveLeo",
       content,
-      footer: "You’re receiving this email because you created a TraveLeo account."
-    })
+      footer:
+        "You’re receiving this email because you created a TraveLeo account.",
+    }),
   });
 };
 
@@ -198,8 +199,8 @@ export const sendOtpMail = async (email, name, otp) => {
     html: baseTemplate({
       title: "Login OTP",
       content,
-      footer: "This OTP is private. Never share it with anyone."
-    })
+      footer: "This OTP is private. Never share it with anyone.",
+    }),
   });
 };
 
@@ -248,7 +249,64 @@ export const sendTripReminderMail = async (email, name, trip) => {
     html: baseTemplate({
       title: "Trip Reminder",
       content,
-      footer: "This is an automated reminder from TraveLeo."
-    })
+      footer: "This is an automated reminder from TraveLeo.",
+    }),
+  });
+};
+
+/* ===================== ACCOUNT DELETED CONFIRMATION ===================== */
+export const sendAccountDeletedMail = async (email, name) => {
+  const content = `
+    <h2 style="
+      margin:0 0 14px;
+      font-size:22px;
+      font-weight:700;
+      color:#fecaca;
+    ">
+      Account Successfully Deleted
+    </h2>
+
+    <p style="font-size:15px;line-height:1.7;color:#cbd5f5;">
+      Hello ${name},
+    </p>
+
+    <p style="font-size:15px;line-height:1.7;color:#cbd5f5;">
+      This email confirms that your <strong>TraveLeo account</strong> has been
+      permanently deleted.
+    </p>
+
+    <div style="
+      margin:22px 0;
+      padding:18px;
+      border-radius:16px;
+      background:rgba(239,68,68,0.08);
+      border:1px solid rgba(239,68,68,0.35);
+    ">
+      <p style="margin:0;font-size:14px;line-height:1.8;color:#fecaca;">
+        • All trips, expenses, and budgets have been removed<br/>
+        • This action cannot be undone<br/>
+        • No further emails will be sent
+      </p>
+    </div>
+
+    <p style="font-size:14px;color:#94a3b8;line-height:1.6;">
+      If this deletion was not initiated by you, please contact us immediately.
+    </p>
+
+    <p style="font-size:15px;color:#cbd5f5;">
+      Thank you for using <strong>TraveLeo</strong>. We hope to see you again someday 🌍
+    </p>
+  `;
+
+  await transporter.sendMail({
+    from: `"TraveLeo Security ✈️" <${process.env.MAIL_USER}>`,
+    to: email,
+    subject: "Your TraveLeo Account Has Been Deleted",
+    html: baseTemplate({
+      title: "Account Deleted",
+      content,
+      footer:
+        "This message confirms a permanent account deletion. If this wasn’t you, contact support immediately.",
+    }),
   });
 };

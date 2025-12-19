@@ -71,7 +71,7 @@ const Dashboard = () => {
 
       setActiveTrip(active);
 
-      /* BUDGET */
+      /* ===== BUDGET ===== */
       try {
         const budgetRes = await getBudgetByTrip(active.id);
         setBudget(Number(budgetRes.data?.budget?.total_budget || 0));
@@ -79,7 +79,7 @@ const Dashboard = () => {
         setBudget(0);
       }
 
-      /* EXPENSES */
+      /* ===== EXPENSES ===== */
       try {
         const expenseRes = await getExpensesByTrip(active.id);
         const expenses = expenseRes.data?.expenses || [];
@@ -101,7 +101,7 @@ const Dashboard = () => {
         setExpenseData([]);
       }
 
-      /* INSIGHTS */
+      /* ===== INSIGHTS ===== */
       try {
         const insightRes = await getTripInsights(active.id);
         setInsights(insightRes.data?.insights || []);
@@ -119,7 +119,7 @@ const Dashboard = () => {
     loadDashboard();
   }, []);
 
-  /* CREATE TRIP */
+  /* ================= CREATE TRIP ================= */
   const handleCreateTrip = async (tripData) => {
     try {
       await createTrip(tripData);
@@ -130,7 +130,7 @@ const Dashboard = () => {
     }
   };
 
-  /* CALCULATIONS */
+  /* ================= CALCULATIONS ================= */
   const totalSpent = expenseData.reduce((s, e) => s + e.value, 0);
   const rawUsagePercent =
     budget > 0 ? Math.round((totalSpent / budget) * 100) : 0;
@@ -147,162 +147,172 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0F172A] via-[#0B3C3A] to-[#064E3B] text-white pl-64">
+    <div className="min-h-screen bg-gradient-to-br from-[#0F172A] via-[#0B3C3A] to-[#064E3B] text-white flex">
+      {/* SIDEBAR */}
       <Sidebar />
 
-      <main className="px-8 py-10 max-w-7xl mx-auto">
+      {/* PAGE CONTENT */}
+      <div className="flex flex-col flex-grow pl-64">
+        <main className="px-8 py-10 max-w-7xl mx-auto w-full">
 
-        {/* HEADER */}
-        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-10">
-          <h1 className="text-3xl font-bold">
-            Welcome,{" "}
-            <span className="text-emerald-400">
-              {user?.name || "Traveler"}
-            </span>
-          </h1>
+          {/* HEADER */}
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-10">
+            <h1 className="text-3xl font-bold">
+              Welcome,{" "}
+              <span className="text-emerald-400">
+                {user?.name || "Traveler"}
+              </span>
+            </h1>
 
-          <div className="flex gap-3 mt-4 sm:mt-0">
-            <button
-              onClick={() => setShowNewTripModal(true)}
-              className="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 font-semibold"
-            >
-              + New Trip
-            </button>
-
-            {activeTrip && (
+            <div className="flex gap-3 mt-4 sm:mt-0">
               <button
-                onClick={() => setShowAddExpenseModal(true)}
-                className="px-4 py-2 rounded-lg border border-emerald-400 text-emerald-400 hover:bg-emerald-500/10 font-semibold"
+                onClick={() => setShowNewTripModal(true)}
+                className="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-600 font-semibold"
               >
-                + Add Expense
+                + New Trip
               </button>
-            )}
-          </div>
-        </div>
 
-        {/* ACTIVE TRIP */}
-        {activeTrip ? (
-          <GlassCard className="mb-10">
-            <p className="text-sm text-white/50">Active Trip</p>
-            <h2 className="text-2xl font-bold text-emerald-400">
-              {activeTrip.title}
-              {activeTrip.destination && (
-                <span className="text-white/60 font-medium">
-                  {" "}• {activeTrip.destination}
-                </span>
+              {activeTrip && (
+                <button
+                  onClick={() => setShowAddExpenseModal(true)}
+                  className="px-4 py-2 rounded-lg border border-emerald-400 text-emerald-400 hover:bg-emerald-500/10 font-semibold"
+                >
+                  + Add Expense
+                </button>
               )}
-            </h2>
-            <p className="text-sm text-white/60 mt-1">
-              {formatDate(activeTrip.start_date)} –{" "}
-              {formatDate(activeTrip.end_date)}
-            </p>
-          </GlassCard>
-        ) : (
-          <GlassCard className="mb-10 text-center">
-            No active trip yet.
-          </GlassCard>
-        )}
+            </div>
+          </div>
 
-        {/* SUMMARY */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
-          <StatCard title="Budget" value={`₹${budget}`} />
-          <StatCard title="Spent" value={`₹${totalSpent}`} color="text-red-400" />
-          <StatCard
-            title="Remaining"
-            value={`₹${remaining}`}
-            color={remaining < 0 ? "text-red-500" : "text-emerald-400"}
-          />
-        </div>
+          {/* ACTIVE TRIP */}
+          {activeTrip ? (
+            <GlassCard className="mb-10">
+              <p className="text-sm text-white/50">Active Trip</p>
+              <h2 className="text-2xl font-bold text-emerald-400">
+                {activeTrip.title}
+                {activeTrip.destination && (
+                  <span className="text-white/60 font-medium">
+                    {" "}• {activeTrip.destination}
+                  </span>
+                )}
+              </h2>
+              <p className="text-sm text-white/60 mt-1">
+                {formatDate(activeTrip.start_date)} –{" "}
+                {formatDate(activeTrip.end_date)}
+              </p>
+            </GlassCard>
+          ) : (
+            <GlassCard className="mb-10 text-center">
+              No active trip yet.
+            </GlassCard>
+          )}
 
-        {/* BUDGET BAR */}
-        <GlassCard className="mb-10">
-          <p className="font-semibold mb-2">Budget Usage</p>
-          <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden">
-            <div
-              className={`h-full ${
-                isOverBudget
-                  ? "bg-red-500"
-                  : rawUsagePercent > 80
-                  ? "bg-yellow-400"
-                  : "bg-emerald-400"
-              }`}
-              style={{ width: `${visualUsagePercent}%` }}
+          {/* SUMMARY */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <StatCard title="Budget" value={`₹${budget}`} />
+            <StatCard title="Spent" value={`₹${totalSpent}`} color="text-red-400" />
+            <StatCard
+              title="Remaining"
+              value={`₹${remaining}`}
+              color={remaining < 0 ? "text-red-500" : "text-emerald-400"}
             />
           </div>
-        </GlassCard>
 
-        {/* CHARTS */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
-          {/* PIE */}
-          <GlassCard title="Expense Distribution">
-            <ResponsiveContainer width="100%" height={260}>
-              <PieChart>
-                <Pie
-                  data={expenseData}
-                  dataKey="value"
-                  nameKey="name"
-                  innerRadius={55}
-                  outerRadius={95}
-                  paddingAngle={4}
-                >
-                  {expenseData.map((_, i) => (
-                    <Cell key={i} fill={COLORS[i % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip
-                  contentStyle={{
+          {/* BUDGET BAR */}
+          <GlassCard className="mb-10">
+            <p className="font-semibold mb-2">Budget Usage</p>
+            <div className="w-full h-3 bg-white/10 rounded-full overflow-hidden">
+              <div
+                className={`h-full ${
+                  isOverBudget
+                    ? "bg-red-500"
+                    : rawUsagePercent > 80
+                    ? "bg-yellow-400"
+                    : "bg-emerald-400"
+                }`}
+                style={{ width: `${visualUsagePercent}%` }}
+              />
+            </div>
+          </GlassCard>
+
+          {/* CHARTS */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+            <GlassCard title="Expense Distribution">
+              <ResponsiveContainer width="100%" height={260}>
+                <PieChart>
+                  <Pie
+                    data={expenseData}
+                    dataKey="value"
+                    nameKey="name"
+                    innerRadius={55}
+                    outerRadius={95}
+                    paddingAngle={4}
+                  >
+                    {expenseData.map((_, i) => (
+                      <Cell key={i} fill={COLORS[i % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip contentStyle={{
                     background: "rgba(15,23,42,0.9)",
                     border: "1px solid rgba(255,255,255,0.15)",
                     borderRadius: "12px",
                     color: "#fff",
-                  }}
-                />
-              </PieChart>
-            </ResponsiveContainer>
-          </GlassCard>
+                  }} />
+                </PieChart>
+              </ResponsiveContainer>
+            </GlassCard>
 
-          {/* BAR */}
-          <GlassCard title="Category-wise Spending">
-            <ResponsiveContainer width="100%" height={260}>
-              <BarChart data={expenseData}>
-                <XAxis stroke="rgba(255,255,255,0.4)" />
-                <YAxis stroke="rgba(255,255,255,0.4)" />
-                <Tooltip
-                  contentStyle={{
+            <GlassCard title="Category-wise Spending">
+              <ResponsiveContainer width="100%" height={260}>
+                <BarChart data={expenseData}>
+                  <XAxis stroke="rgba(255,255,255,0.4)" />
+                  <YAxis stroke="rgba(255,255,255,0.4)" />
+                  <Tooltip contentStyle={{
                     background: "rgba(15,23,42,0.9)",
                     border: "1px solid rgba(255,255,255,0.15)",
                     borderRadius: "12px",
                     color: "#fff",
-                  }}
-                />
-                <Bar
-                  dataKey="value"
-                  radius={[8, 8, 0, 0]}
-                  fill="#22ffc7"
-                />
-              </BarChart>
-            </ResponsiveContainer>
+                  }} />
+                  <Bar dataKey="value" radius={[8, 8, 0, 0]} fill="#22ffc7" />
+                </BarChart>
+              </ResponsiveContainer>
+            </GlassCard>
+          </div>
+
+          {/* INSIGHTS */}
+          <GlassCard>
+            <h3 className="font-semibold mb-3">Smart Travel Advice</h3>
+            {insights.length === 0 ? (
+              <p className="text-sm text-white/60">
+                Add expenses to receive insights.
+              </p>
+            ) : (
+              <ul className="space-y-2">
+                {insights.map((tip, i) => (
+                  <li key={i} className="text-sm">• {tip}</li>
+                ))}
+              </ul>
+            )}
           </GlassCard>
-        </div>
+        </main>
 
-        {/* INSIGHTS */}
-        <GlassCard>
-          <h3 className="font-semibold mb-3">Smart Travel Advice</h3>
-          {insights.length === 0 ? (
-            <p className="text-sm text-white/60">
-              Add expenses to receive insights.
-            </p>
-          ) : (
-            <ul className="space-y-2">
-              {insights.map((tip, i) => (
-                <li key={i} className="text-sm">• {tip}</li>
-              ))}
-            </ul>
-          )}
-        </GlassCard>
-      </main>
+        {/* MODALS */}
+        {showNewTripModal && (
+          <NewTripModal
+            onClose={() => setShowNewTripModal(false)}
+            onCreate={handleCreateTrip}
+          />
+        )}
 
-      <Footer />
+        {showAddExpenseModal && activeTrip && (
+          <AddExpenseModal
+            tripId={activeTrip.id}
+            onClose={() => setShowAddExpenseModal(false)}
+            onSuccess={loadDashboard}
+          />
+        )}
+
+        <Footer />
+      </div>
     </div>
   );
 };

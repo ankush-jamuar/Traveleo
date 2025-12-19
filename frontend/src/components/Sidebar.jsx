@@ -4,6 +4,7 @@ import Brand from "./Brand";
 import {
   FiHome,
   FiMap,
+  FiUser,
   FiLogOut,
 } from "react-icons/fi";
 import { motion } from "framer-motion";
@@ -24,7 +25,7 @@ const Sidebar = () => {
     }
   `;
 
-  /* LOGOUT (UNCHANGED LOGIC) */
+  /* LOGOUT */
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
@@ -50,7 +51,7 @@ const Sidebar = () => {
         <Brand light size="lg" />
       </Link>
 
-      {/* NAV LINKS */}
+      {/* MAIN NAV */}
       <nav className="flex flex-col gap-2 flex-grow">
         <Link
           to="/dashboard"
@@ -69,11 +70,22 @@ const Sidebar = () => {
         </Link>
       </nav>
 
+      {/* PROFILE (SECONDARY ACTION) */}
+      <div className="pt-4 border-t border-white/10">
+        <Link
+          to="/profile"
+          className={linkClass(isActive("/profile"))}
+        >
+          <FiUser size={18} />
+          Profile
+        </Link>
+      </div>
+
       {/* LOGOUT */}
       <button
         onClick={handleLogout}
         className="
-          mt-6 flex items-center gap-3 px-4 py-3
+          mt-4 flex items-center gap-3 px-4 py-3
           rounded-xl text-sm font-semibold
           text-red-400 hover:bg-red-500/10 transition
         "
