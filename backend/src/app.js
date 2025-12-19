@@ -48,6 +48,10 @@ import historyRoutes from "./routes/history.routes.js";
 
 app.use("/api", historyRoutes);
 
+import analyticsRoutes from "./routes/analytics.routes.js";
+
+app.use("/api/analytics", analyticsRoutes);
+
 app.use("/api", healthRoute);
 // test route
 app.get("/", (req, res) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Brand from "./Brand";
-import { FiHome, FiMap, FiUser, FiLogOut, FiClock } from "react-icons/fi";
+import { FiHome, FiMap, FiUser, FiLogOut, FiClock, FiBarChart2 } from "react-icons/fi";
 import { motion } from "framer-motion";
 
 const Sidebar = () => {
@@ -56,6 +56,10 @@ const Sidebar = () => {
         <Link to="/trips" className={linkClass(isActive("/trips"))}>
           <FiMap size={18} />
           Trips
+        </Link>
+        <Link to="/analytics" className={linkClass(isActive("/analytics"))}>
+          <FiBarChart2 size={18} />
+          Analytics
         </Link>
         <Link to="/history" className={linkClass(isActive("/history"))}>
           <FiClock size={18} />

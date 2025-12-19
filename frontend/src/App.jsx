@@ -9,7 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import Trips from "./pages/Trips";
 import TripDetails from "./pages/TripDetails";
 import Profile from "./pages/Profile";
-import History from "./pages/History"; // ✅ NEW
+import History from "./pages/History";
+import Analytics from "./pages/Analytics";
 
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
@@ -46,7 +47,6 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-
         {/* 🔐 Protected Routes */}
         <Route
           path="/dashboard"
@@ -56,7 +56,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/trips"
           element={
@@ -65,7 +64,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         <Route
           path="/trips/:id"
           element={
@@ -74,7 +72,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/analytics"
+          element={
+            <ProtectedRoute>
+              <Analytics />
+            </ProtectedRoute>
+          }
+        />
         {/* 🧾 Expense History */}
         <Route
           path="/history"
@@ -84,7 +89,6 @@ function App() {
             </ProtectedRoute>
           }
         />
-
         {/* 👤 Profile & Settings */}
         <Route
           path="/profile"
