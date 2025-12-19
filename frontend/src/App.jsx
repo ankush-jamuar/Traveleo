@@ -12,6 +12,10 @@ import Profile from "./pages/Profile";
 import History from "./pages/History";
 import Analytics from "./pages/Analytics";
 
+// 🆕 New Pages
+import About from "./pages/About";
+import Help from "./pages/Help";
+
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 
 function App() {
@@ -47,6 +51,11 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+
+        {/* ℹ️ Public Info Pages */}
+        <Route path="/about" element={<About />} />
+        <Route path="/help" element={<Help />} />
+
         {/* 🔐 Protected Routes */}
         <Route
           path="/dashboard"
@@ -56,6 +65,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/trips"
           element={
@@ -64,6 +74,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/trips/:id"
           element={
@@ -72,6 +83,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/analytics"
           element={
@@ -80,7 +92,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* 🧾 Expense History */}
+
         <Route
           path="/history"
           element={
@@ -89,7 +101,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        {/* 👤 Profile & Settings */}
+
         <Route
           path="/profile"
           element={
